@@ -1,0 +1,44 @@
+{
+    "Experiment": {
+        "version": 1.0,
+        "description": "Logistic Regression configuration.",
+        "path": "../results/country_markets/Swe_full/baseline_lr",
+        "seed": 42
+    },
+    "Data": {
+        "type": "baseline-sklearn",
+        "args": {
+            "load_path": "../",
+            "reduced": false,
+            "validation_size": 0.1,
+            "customer_transforms": {
+                "dropcol": {
+                    "cols": ["shippingCountry"]
+                },
+                "removeoutliers": true,
+                "dropyob": true,
+                "selectCountry": {
+                    "country": "Sweden"
+                }
+            },
+            "product_transforms": {
+                "dropcol": {
+                    "cols": ["brandDesc", "productType"]
+                },
+                "removeoutliers": true
+            }
+        }
+    },
+    "Model": {
+        "type": "logistic-regression",
+        "loss": "cross-entropy",
+        "args": {
+            "C": 5.0,
+            "tol": 1e-4,
+            "solver": "lbfgs"
+        }
+    },
+    "Training": {
+        "epochs": 0
+    }
+}

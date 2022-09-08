@@ -1,0 +1,40 @@
+{
+    "Experiment": {
+        "version": 0.0,
+        "description": "MetaPath2Vec configuration.",
+        "path": "../results/test",
+        "seed": false
+    },
+    "Data": {
+        "type": "metpath2vec-pyg",
+        "args": {
+            "load_path": "../raw",
+            "reduced": true,
+            "validation_size": false,
+            "transforms": {
+                "dropcol": {
+                    "cols": ["shippingCountry", "brandDesc", "hash(customerId)", "variantID"]
+                }
+            }
+        }
+    },
+    "Model": {
+        "type": "metapath2vec",
+        "loss": "mse",
+        "args": {
+            "embedding_dim": 128,
+            "walk_length": 5,
+            "context_size": 3,
+            "walks_per_node": 10,
+            "num_negative_samples": 1,
+            "sparse": true,
+            "metapaths": [
+                "customer returns product",
+                "product returned_by customer"
+            ]
+        }
+    },
+    "Training": {
+        "epochs": 10
+    }
+}

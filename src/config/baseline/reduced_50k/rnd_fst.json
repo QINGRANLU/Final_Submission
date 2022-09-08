@@ -1,0 +1,44 @@
+{
+    "Experiment": {
+        "version": 1.0,
+        "description": "Random Forest configuration.",
+        "path": "../results/reduced_50k/baseline_rf",
+        "seed": 42
+    },
+    "Data": {
+        "type": "baseline-sklearn",
+        "args": {
+            "load_path": "../",
+            "reduced": 50000,
+            "validation_size": 0.1,
+            "customer_transforms": {
+                "dropcol": {
+                    "cols": ["shippingCountry"]
+                },
+                "removeoutliers": true,
+                "dropyob": true
+            },
+            "product_transforms": {
+                "dropcol": {
+                    "cols": ["brandDesc", "productType"]
+                },
+                "removeoutliers": true
+            }
+        }
+    },
+    "Model": {
+        "type": "random-forest",
+        "loss": "cross-entropy",
+        "args": {
+            "n_estimators": 100,
+            "max_depth": 6,
+            "min_samples_split": 2,
+            "min_samples_leaf": 1,
+            "min_weight_fraction_leaf": 0.0,
+            "max_leaf_nodes": 10
+        }
+    },
+    "Training": {
+        "epochs": 0
+    }
+}

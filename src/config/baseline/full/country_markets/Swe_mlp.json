@@ -1,0 +1,42 @@
+{
+    "Experiment": {
+        "version": 1.0,
+        "description": "MLP configuration.",
+        "path": "../results/country_markets/Swe_full/baseline_mlp",
+        "seed": 42
+    },
+    "Data": {
+        "type": "gnn-pyg",
+        "args": {
+            "load_path": "../",
+            "reduced": false,
+            "customer_transforms": {
+                "removeoutliers": true,
+                "dropyob": true,
+                "selectCountry": {
+                    "country": "Sweden"
+                }
+            },
+            "product_transforms": {
+                "removeoutliers": true
+            }
+        }
+    },
+    "Model": {
+        "type": "mlp",
+        "loss": "binary-cross-entropy",
+        "args": {
+            "input_channels": 68,
+            "hidden_channels": 16,
+            "optimizer": {
+                "name": "adam",
+                "args": {
+                    "lr": 0.05
+                }
+            }
+        }
+    },
+    "Training": {
+        "epochs": 500
+    }
+}

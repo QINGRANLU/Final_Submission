@@ -1,0 +1,70 @@
+{
+    "Experiment": {
+        "version": 1.0,
+        "description": "GNN configuration.",
+        "path": "../results/country_markets/Fr_full/gnn",
+        "seed": 12
+    },
+    "Data": {
+        "type": "gnn-pyg",
+        "args": {
+            "load_path": "../",
+            "reduced": false,
+            "include_product_nodes": true,
+            "include_country_nodes": true,
+            "include_brand_nodes": true,
+            "include_type_nodes": true,
+            "include_var_reasons": false,
+            "include_cust_reasons": false,
+            "customer_transforms": {
+                "removeoutliers": true,
+                "dropyob": true,
+                "minMaxScaler": {
+                    "cols": ["yearOfBirth",
+                             "salesPerCustomer",
+                             "returnsPerCustomer"]
+                },
+                "selectCountry": {
+                    "brand": "France"
+                }
+            },
+            "product_transforms": {
+                "removeoutliers": true,
+                "minMaxScaler": {
+                    "cols": ["avgGbpPrice",
+                             "avgDiscountValue",
+                             "salesPerProduct",
+                             "returnsPerProduct"]
+                }
+            }
+        }
+    },
+    "Model": {
+        "type": "gnn",
+        "loss": "binary-cross-entropy",
+        "args": {
+            "encoder_name": "sage-conv",
+            "encoder_args": {
+                "hidden_channels": [16],
+                "out_channels": 16,
+                "dropout": 0.2,
+                "normalize": true
+            },
+            "decoder_name": "mlp",
+            "decoder_args": {
+                "hidden_channels": [64],
+                "dropout": 0.2
+            },
+            "optimizer": {
+                "name": "adam",
+                "args": {
+                    "lr": 0.001,
+                    "weight_decay": 0.0
+                }
+            }
+        }
+    },
+    "Training": {
+        "epochs": 2000
+    }
+}

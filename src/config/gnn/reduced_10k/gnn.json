@@ -1,0 +1,73 @@
+{
+    "Experiment": {
+        "version": 1.0,
+        "description": "GNN configuration.",
+        "path": "../results/reduced_10k/gnn",
+        "seed": 12
+    },
+    "Data": {
+        "type": "gnn-pyg",
+        "args": {
+            "load_path": "../",
+            "reduced": 10000,
+            "product_links": "virtual",
+            "brand_links": "direct",
+            "type_links": "direct",
+            "country_links": "direct",
+            "customer_transforms": {
+                "removeoutliers": true,
+                "dropyob": true,
+                "lowAndHighReturns": false,
+                "minMaxScaler": {
+                    "cols": ["yearOfBirth",
+                             "salesPerCustomer",
+                             "returnsPerCustomer"]
+                }
+            },
+            "product_transforms": {
+                "removeoutliers": true,
+                "lowAndHighReturns": false,
+                "minMaxScaler": {
+                    "cols": ["avgGbpPrice",
+                             "avgDiscountValue",
+                             "salesPerProduct",
+                             "returnsPerProduct"]
+                }
+            }
+        }
+    },
+    "Model": {
+        "type": "gnn",
+        "loss": "binary-cross-entropy",
+        "args": {
+            "encoder_name": "sage-conv",
+            "encoder_args": {
+                "hidden_channels": [16],
+                "out_channels": 16,
+                "dropout": 0.2,
+                "normalize": true,
+                "skip_connections": false,
+                "aggr1": "max",
+                "aggr2": "max"
+            },
+            "decoder_name": "mlp",
+            "decoder_args": {
+                "hidden_channels": [64],
+                "dropout": 0.2
+            },
+            "optimizer": {
+                "name": "adam",
+                "args": {
+                    "lr": 0.001,
+                    "weight_decay": 0.0
+                }
+            },
+            "batch_size": 2048
+        }
+    },
+    "Training": {
+        "epochs": 2000,
+        "save_epochs": 1,
+        "patience": false
+    }
+}

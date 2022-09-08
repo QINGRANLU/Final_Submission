@@ -1,0 +1,46 @@
+{
+    "Experiment": {
+        "version": 1.0,
+        "description": "XGBoost configuration.",
+        "path": "../results/reduced_10k/baseline_xgb",
+        "seed": 42
+    },
+    "Data": {
+        "type": "baseline-sklearn",
+        "args": {
+            "load_path": "../",
+            "reduced": 10000,
+            "validation_size": 0.1,
+            "customer_transforms": {
+                "dropcol": {
+                    "cols": ["shippingCountry"]
+                },
+                "removeoutliers": true,
+                "dropyob": true
+            },
+            "product_transforms": {
+                "dropcol": {
+                    "cols": ["brandDesc", "productType"]
+                },
+                "removeoutliers": true
+            }
+        }
+    },
+    "Model": {
+        "type": "xgboost",
+        "loss": "mse",
+        "args": {
+            "booster": "gbtree",
+            "max_depth": 4,
+            "eta": 0.1,
+            "gamma": 1,
+            "min_child_weight": 1,
+            "lambda": 2,
+            "objective": "binary:logistic",
+            "early_stopping_rounds": 5
+        }
+    },
+    "Training": {
+        "epochs": 500
+    }
+}

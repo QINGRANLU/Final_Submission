@@ -1,0 +1,46 @@
+{
+    "Experiment": {
+        "version": 1.0,
+        "description": "MLP configuration.",
+        "path": "../results/full/baseline_mlp",
+        "seed": 42
+    },
+    "Data": {
+        "type": "gnn-pyg",
+        "args": {
+            "load_path": "../",
+            "reduced": false,
+            "include_product_nodes": false,
+            "customer_transforms": {
+                "dropcol": {
+                    "cols": ["shippingCountry"]
+                },
+                "removeoutliers": true,
+                "dropyob": true
+            },
+            "product_transforms": {
+                "dropcol": {
+                    "cols": ["brandDesc", "productType"]
+                },
+                "removeoutliers": true
+            }
+        }
+    },
+    "Model": {
+        "type": "mlp",
+        "loss": "binary-cross-entropy",
+        "args": {
+            "input_channels": 68,
+            "hidden_channels": 16,
+            "optimizer": {
+                "name": "adam",
+                "args": {
+                    "lr": 0.05
+                }
+            }
+        }
+    },
+    "Training": {
+        "epochs": 500
+    }
+}

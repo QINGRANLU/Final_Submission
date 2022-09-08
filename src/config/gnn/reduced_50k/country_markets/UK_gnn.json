@@ -1,0 +1,56 @@
+{
+    "Experiment": {
+        "version": 1.0,
+        "description": "GNN configuration.",
+        "path": "../results/UK_reduced_50k/gnn",
+        "seed": 42
+    },
+    "Data": {
+        "type": "gnn-pyg",
+        "args": {
+            "load_path": "../",
+            "reduced": 50000,
+            "include_product_nodes": false,
+            "customer_transforms": {
+                "dropcol": {
+                    "cols": ["shippingCountry"]
+                },
+                "removeoutliers": true,
+                "dropyob": true,
+                "selectCountry": {
+                    "country": "UK"
+                }
+            },
+            "product_transforms": {
+                "dropcol": {
+                    "cols": ["brandDesc", "productType"]
+                },
+                "removeoutliers": true
+            }
+        }
+    },
+    "Model": {
+        "type": "gnn",
+        "loss": "cross-entropy",
+        "args": {
+            "encoder_name": "sage-conv",
+            "encoder_args": {
+                "hidden_channels": [64, 64, 64, 64],
+                "out_channels": 64
+            },
+            "decoder_name": "mlp",
+            "decoder_args": {
+                "hidden_channels": 64
+            },
+            "optimizer": {
+                "name": "adam",
+                "args": {
+                    "lr": 0.01
+                }
+            }
+        }
+    },
+    "Training": {
+        "epochs": 100
+    }
+}
