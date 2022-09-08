@@ -1,0 +1,23 @@
+# System
+*.DS_Store
+
+# IDE
+*.idea
+
+# Data
+*.csv
+*.zip
+raw/gnn_reduced_data
+processed/*/
+processed/*.pt
+
+# Python
+*__pycache__
+*.ipynb_checkpoints
+
+# Specific files and folders
+midReviewPresentation
+PyG_dataset.ipynb
+results/*/
+old/
+.pre-commit-config.yaml
